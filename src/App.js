@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {AiOutlineDelete} from 'react-icons/ai';
 import {BsCheckLg} from 'react-icons/bs';
 import './App.css';
@@ -19,7 +19,15 @@ function App() {
     updatedTodoArr.push(newItem)
     setAllTodos(updatedTodoArr)
 
+    localStorage.setItem('todolist',JSON.stringify(updatedTodoArr))
   } 
+
+  useEffect(() => {
+    let savedTodo = JSON.parse(localStorage.getItem('todolist'))
+    if (savedTodo){
+      setAllTodos(savedTodo)
+    }
+  },[])
 
   return (
     <div className="App">
@@ -50,7 +58,7 @@ function App() {
 
             {allTodos.map((item, index) => {
               return(
-                <div className="todo-list-item" key={item}>
+                <div className="todo-list-item" key={index}>
                   <div>
                     <h3>{item.title}</h3>
                     <p>{item.desription}</p>
